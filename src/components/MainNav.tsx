@@ -10,17 +10,14 @@ export default function MainNav() {
       <span className="flex space-x-2 items-center">
         {isAuthenticated ? (
           <>
-            <Link
-              to="/order-status"
-              className="font-bold hover:text-orange-500"
-            >
+            <Link to="/order-status" className="font-bold hover:text-[#75A107]">
               Order Status
             </Link>
             <UsernameMenu />
           </>
         ) : (
           <Button
-            className="font-semibold text-base hover:text-[#F21C40] hover:bg-white"
+            className="font-semibold text-base hover:text-[#75A107] hover:bg-white"
             variant="ghost"
             onClick={async () => await loginWithRedirect()}
           >
