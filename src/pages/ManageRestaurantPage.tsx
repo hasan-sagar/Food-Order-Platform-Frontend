@@ -1,10 +1,19 @@
-import { useCreateRestaurant, useGetRestaurant } from "@/api/RestaurantApi";
+import {
+  useCreateRestaurant,
+  useGetRestaurant,
+  useUpdateRestaurant,
+} from "@/api/RestaurantApi";
 import ManageRestaurantForm from "@/components/forms/restaurant/ManageRestaurantForm";
 import { Pizza } from "lucide-react";
 
 export default function ManageRestaurantPage() {
-  const { createRestaurant, isLoading } = useCreateRestaurant();
+  const { createRestaurant, isLoading: isCreateLoading } =
+    useCreateRestaurant();
   const { restaurant, isLoading: isGetLoading } = useGetRestaurant();
+  const { updateRestaurant, isLoading: isUpdateLoading } =
+    useUpdateRestaurant();
+
+  const isEditing = !!restaurant;
 
   if (isGetLoading) {
     return (
@@ -15,8 +24,8 @@ export default function ManageRestaurantPage() {
   }
   return (
     <ManageRestaurantForm
-      onSave={createRestaurant}
-      isLoading={isLoading}
+      onSave={isEditing ? updateRestaurant : createRestaurant}
+      isLoading={isCreateLoading || isUpdateLoading || isGetLoading}
       restaurant={restaurant}
     />
   );

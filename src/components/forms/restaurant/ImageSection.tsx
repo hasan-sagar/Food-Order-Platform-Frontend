@@ -20,7 +20,7 @@ export default function ImageSection() {
         <h2 className="text-2xl font-bold">Image Section</h2>
         <FormDescription>Add an image</FormDescription>
       </div>
-      <div className="flex flex-col gap-8 w-[50%]">
+      <div className="flex flex-col gap-8 md:w-[50%]">
         {uploadedImage && (
           <AspectRatio ratio={16 / 9}>
             <img
