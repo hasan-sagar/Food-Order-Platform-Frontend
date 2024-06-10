@@ -4,6 +4,7 @@ import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
 import SearchResultsInfo from "@/components/SearchResultsInfo";
+import SortOptionDrowDown from "@/components/SortOptionDrowDown";
 import { Pizza } from "lucide-react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -12,6 +13,7 @@ export type SearchState = {
   searchQueryKeywords: string;
   page: number;
   selectedCuisines: string[];
+  sortOption: string;
 };
 
 export default function SearchPage() {
@@ -21,6 +23,7 @@ export default function SearchPage() {
     searchQueryKeywords: "",
     page: 1,
     selectedCuisines: [],
+    sortOption: "bestMatch",
   });
 
   const [isExpanded, setIsExpanded] = useState<boolean>(false);
@@ -57,6 +60,14 @@ export default function SearchPage() {
     }));
   };
 
+  const setSortOption = (sortOption: string) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      sortOption,
+      page: 1,
+    }));
+  };
+
   if (isLoading) {
     return (
       <div className="flex justify-center mx-auto">
@@ -85,10 +96,16 @@ export default function SearchPage() {
           onSubmit={setSearchQuery}
           placeHolder="Search by city"
         />
-        <SearchResultsInfo
-          total={restaurantData.pagination.total}
-          city={city}
-        />
+        <div className="flex justify-between flex-col gap-3 lg:flex-row">
+          <SearchResultsInfo
+            total={restaurantData.pagination.total}
+            city={city}
+          />
+          <SortOptionDrowDown
+            sortOption={searchState.sortOption}
+            onChange={(value) => setSortOption(value)}
+          />
+        </div>
         {restaurantData.data.map((restaurant) => (
           <SearchResultCard restaurant={restaurant} />
         ))}
