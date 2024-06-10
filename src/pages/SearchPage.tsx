@@ -1,4 +1,5 @@
 import { useSearchRestaurants } from "@/api/RestaurantApi";
+import CuisineFilter from "@/components/CuisineFilter";
 import PaginationSelector from "@/components/PaginationSelector";
 import SearchBar, { SearchForm } from "@/components/SearchBar";
 import SearchResultCard from "@/components/SearchResultCard";
@@ -10,6 +11,7 @@ import { useParams } from "react-router-dom";
 export type SearchState = {
   searchQueryKeywords: string;
   page: number;
+  selectedCuisines: string[];
 };
 
 export default function SearchPage() {
@@ -18,10 +20,21 @@ export default function SearchPage() {
   const [searchState, setSearchState] = useState<SearchState>({
     searchQueryKeywords: "",
     page: 1,
+    selectedCuisines: [],
   });
+
+  const [isExpanded, setIsExpanded] = useState<boolean>(false);
 
   const { restaurantData, isLoading } = useSearchRestaurants(searchState, city);
   console.log(restaurantData);
+
+  const setSelectedCuisines = (selectedCuisines: string[]) => {
+    setSearchState((prevState) => ({
+      ...prevState,
+      selectedCuisines,
+      page: 1,
+    }));
+  };
 
   const setSearchQuery = (searchFormData: SearchForm) => {
     setSearchState((prevState) => ({
@@ -57,16 +70,14 @@ export default function SearchPage() {
   return (
     <div className="grid grid-cols-1 gap-5 lg:grid-cols-[250px_2fr]">
       <div id="cuisines-list">
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
-        <span>cuisines here</span>
+        <CuisineFilter
+          selectedCuisines={searchState.selectedCuisines}
+          onChange={setSelectedCuisines}
+          isExpand={isExpanded}
+          onExpandClick={() =>
+            setIsExpanded((prevIsExpanded) => !prevIsExpanded)
+          }
+        />
       </div>
       <div id="main-content" className="flex flex-col gap-5">
         <SearchBar
