@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 
 export type SearchState = {
   searchQueryKeywords: string;
+  page: number;
 };
 
 export default function SearchPage() {
@@ -16,6 +17,7 @@ export default function SearchPage() {
 
   const [searchState, setSearchState] = useState<SearchState>({
     searchQueryKeywords: "",
+    page: 1,
   });
 
   const { restaurantData, isLoading } = useSearchRestaurants(searchState, city);
