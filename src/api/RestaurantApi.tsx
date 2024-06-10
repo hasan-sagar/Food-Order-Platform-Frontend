@@ -151,3 +151,26 @@ export const useSearchRestaurants = (
 
   return { restaurantData, isLoading };
 };
+
+export const useGetSingleRestaurant = (restaurantId?: string) => {
+  const getRestaurantByIdRequest = async (): Promise<RestaurantType> => {
+    const response = await fetch(`${apiBaseUrl}/restaurant/${restaurantId}`);
+
+    if (!response.ok) {
+      throw new Error("Failed to get restaurant");
+    }
+
+    const data = await response.json();
+    return data.data;
+  };
+
+  const { data: restaurant, isLoading } = useQuery(
+    "fetchSignleRestaurant",
+    getRestaurantByIdRequest,
+    {
+      enabled: !!restaurantId,
+    }
+  );
+
+  return { restaurant, isLoading };
+};

@@ -107,7 +107,7 @@ export default function SearchPage() {
           />
         </div>
         {restaurantData.data.map((restaurant) => (
-          <SearchResultCard restaurant={restaurant} />
+          <SearchResultCard restaurant={restaurant} key={restaurant._id} />
         ))}
         <PaginationSelector
           page={restaurantData.pagination.page}
