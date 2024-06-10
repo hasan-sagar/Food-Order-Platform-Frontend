@@ -5,6 +5,7 @@ import { Form, FormControl, FormField, FormItem } from "./ui/form";
 import { Check, Delete, Search } from "lucide-react";
 import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { useEffect } from "react";
 
 const formSchema = z.object({
   searchQueryKeywords: z.string({
@@ -45,11 +46,15 @@ const SearchBar = ({
     }
   };
 
+  useEffect(() => {
+    form.reset({ searchQueryKeywords });
+  }, [form, searchQueryKeywords]);
+
   return (
     <Form {...form}>
       <form
         onSubmit={form.handleSubmit(onSubmit)}
-        className={`flex items-center gap-3 justify-between flex-row  p-3 mx-5 ${
+        className={`flex items-center gap-3 justify-between flex-row  p-3  ${
           form.formState.errors.searchQueryKeywords && "border-red-500"
         }`}
       >
@@ -83,6 +88,7 @@ const SearchBar = ({
           >
             <Delete />
           </Button>
+
           <Button type="submit" className="rounded-sm bg-[#75A107]">
             <Check />
           </Button>

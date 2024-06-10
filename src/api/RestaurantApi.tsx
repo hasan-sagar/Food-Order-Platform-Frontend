@@ -1,4 +1,6 @@
+import { RestaurantSearchType } from "@/common/types/restaurant-search-type";
 import { RestaurantType } from "@/common/types/restaurant-type";
+import { SearchState } from "@/pages/SearchPage";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useMutation, useQuery } from "react-query";
 import { toast } from "sonner";
@@ -116,4 +118,31 @@ export const useUpdateRestaurant = () => {
   }
 
   return { updateRestaurant, isLoading };
+};
+
+export const useSearchRestaurants = (
+  searchState: SearchState,
+  city?: string
+) => {
+  const createSearchRequest = async (): Promise<RestaurantSearchType> => {
+    const params = new URLSearchParams();
+    params.set("searchQuery", searchState.searchQueryKeywords);
+    const response = await fetch(
+      `${apiBaseUrl}/restaurant/search/${city}?${params.toString()}`
+    );
+
+    if (!response.ok) {
+      throw new Error("Failed to fetch restaurant");
+    }
+
+    return await response.json();
+  };
+
+  const { data: restaurantData, isLoading } = useQuery(
+    ["searchRestaurants", searchState],
+    createSearchRequest,
+    { enabled: !!city }
+  );
+
+  return { restaurantData, isLoading };
 };
