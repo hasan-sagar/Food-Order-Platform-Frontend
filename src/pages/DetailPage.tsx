@@ -6,7 +6,6 @@ import OrderSummary from "@/components/OrderSummary";
 import RestaurantInfo from "@/components/RestaurantInfo";
 import { UserFormData } from "@/components/forms/user-profile/UserProfileForm";
 import { AspectRatio } from "@/components/ui/aspect-ratio";
-import { Button } from "@/components/ui/button";
 import { Card, CardFooter } from "@/components/ui/card";
 import { Pizza } from "lucide-react";
 import { useState } from "react";
