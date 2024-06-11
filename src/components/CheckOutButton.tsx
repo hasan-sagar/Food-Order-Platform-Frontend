@@ -11,9 +11,14 @@ import { useGetUser } from "@/api/UserApi";
 type Props = {
   onCheckout: (userFormData: UserFormData) => void;
   disabled: boolean;
+  isLoading: boolean;
 };
 
-export default function CheckOutButton({ onCheckout, disabled }: Props) {
+export default function CheckOutButton({
+  onCheckout,
+  disabled,
+  isLoading,
+}: Props) {
   const { currentUser, isLoading: isGetUserLoading } = useGetUser();
 
   const {
@@ -40,7 +45,7 @@ export default function CheckOutButton({ onCheckout, disabled }: Props) {
     );
   }
 
-  if (authLoading || !currentUser) {
+  if (authLoading || !currentUser || isLoading) {
     return (
       <div className="flex justify-center mx-auto">
         <Pizza color="#75A107" className="mr-2 h-10 w-10 animate-spin" />

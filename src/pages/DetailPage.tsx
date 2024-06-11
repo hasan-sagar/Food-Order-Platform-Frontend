@@ -1,3 +1,4 @@
+import { useCreateCheckoutSession } from "@/api/OrderApi";
 import { useGetSingleRestaurant } from "@/api/RestaurantApi";
 import { MenuItem as MenuItemType } from "@/common/types/menu-item-type";
 import CheckOutButton from "@/components/CheckOutButton";
@@ -20,7 +21,10 @@ export type CartItem = {
 
 export default function DetailPage() {
   const { restaurantId } = useParams();
+
   const { restaurant, isLoading } = useGetSingleRestaurant(restaurantId);
+  const { createCheckoutSession, isLoading: isCheckoutSessionLoading } =
+    useCreateCheckoutSession();
 
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const storedCartItems = sessionStorage.getItem(`cartItems-${restaurantId}`);
@@ -68,11 +72,46 @@ export default function DetailPage() {
     });
   };
 
-  const onCheckout = (userFormData: UserFormData) => {
-    console.log("UserFormData", userFormData);
+  const onCheckout = async (userFormData: UserFormData) => {
+    if (!restaurant) {
+      return;
+    }
+
+    const checkoutData = {
+      cartItems: cartItems.map((cartItem) => ({
+        menuItemId: cartItem._id,
+        name: cartItem.name,
+        quantity: cartItem.quantity.toString(),
+      })),
+      restaurantId: restaurant._id,
+      deliveryDetails: {
+        name: userFormData.name,
+        addressLine1: userFormData.addressLine1,
+        city: userFormData.city,
+        country: userFormData.country,
+        email: userFormData.email as string,
+      },
+    };
+
+    const data = await createCheckoutSession(checkoutData);
+    window.location.href = data.url;
+    console.log(data);
   };
 
-  const removeFromCart = () => {};
+  const removeFromCart = (cartItem: CartItem) => {
+    setCartItems((prevCartItems) => {
+      const updatedCartItems = prevCartItems.filter(
+        (item) => cartItem._id !== item._id
+      );
+
+      sessionStorage.setItem(
+        `cartItems-${restaurantId}`,
+        JSON.stringify(updatedCartItems)
+      );
+
+      return updatedCartItems;
+    });
+  };
 
   return (
     <div className="flex flex-col gap-10">
@@ -108,6 +147,7 @@ export default function DetailPage() {
               <CheckOutButton
                 disabled={cartItems.length === 0}
                 onCheckout={onCheckout}
+                isLoading={isCheckoutSessionLoading}
               />
             </CardFooter>
           </Card>
