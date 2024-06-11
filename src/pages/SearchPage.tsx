@@ -90,7 +90,7 @@ export default function SearchPage() {
           }
         />
       </div>
-      <div id="main-content" className="flex flex-col gap-5">
+      <div id="main-content" className="flex flex-col gap-10">
         <SearchBar
           onReset={resetSearch}
           onSubmit={setSearchQuery}

@@ -19,7 +19,7 @@ export default function OrderStatusPage() {
   return (
     <div className="space-y-10">
       {orders.map((order: any) => (
-        <div className="space-y-10 bg-gray-50 p-10 rounded-lg">
+        <div className="space-y-10 bg-slate-50 p-10 rounded-lg">
           <OrderStatusHeader order={order} />
           <div className="grid gap-10 md:grid-cols-2">
             <OrderStatusDetail order={order} />

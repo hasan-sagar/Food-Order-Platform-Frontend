@@ -32,14 +32,17 @@ export default function OrderSummary({
       <CardHeader>
         <CardTitle className="text-2xl font-bold tracking-tight flex justify-between">
           <span>Your Order</span>
-          <span>BDT {getTotalCost()}</span>
+          <span className="text-[#75A107]">BDT {getTotalCost()}</span>
         </CardTitle>
       </CardHeader>
       <CardContent className="flex flex-col gap-5">
         {cartItems.map((item) => (
           <div className="flex justify-between" key={item._id}>
             <span>
-              <Badge variant="outline" className="mr-2">
+              <Badge
+                variant="secondary"
+                className="mr-2 bg-[#75A107] text-white hover:text-[#75A107]"
+              >
                 {item.quantity}
               </Badge>
               {item.name}

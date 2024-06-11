@@ -7,12 +7,18 @@ type Props = {
 
 const MenuItem = ({ menuItem, addToCart }: Props) => {
   return (
-    <Card className="cursor-pointer" onClick={addToCart}>
-      <CardHeader>
-        <CardTitle>{menuItem.name}</CardTitle>
-      </CardHeader>
-      <CardContent className="font-bold">BDT{menuItem.price}</CardContent>
-    </Card>
+    <>
+      <Card
+        className="cursor-pointer border-none
+      hover:shadow-md transition-all duration-300 rounded-sm"
+        onClick={addToCart}
+      >
+        <CardHeader>
+          <CardTitle>{menuItem.name}</CardTitle>
+        </CardHeader>
+        <CardContent className="font-bold">BDT{menuItem.price}</CardContent>
+      </Card>
+    </>
   );
 };
 

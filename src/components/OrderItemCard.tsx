@@ -46,7 +46,7 @@ const OrderItemCard = ({ order }: Props) => {
   };
 
   return (
-    <Card>
+    <Card className="rounded-sm  shadow-none">
       <CardHeader>
         <CardTitle className="grid md:grid-cols-4 gap-4 justify-between mb-3">
           <div>
